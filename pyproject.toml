@@ -1,0 +1,19 @@
+[project]
+name = "lattice-mg"
+version = "0.1.0"
+description = "Cross-modal, temporal, and agent-delegation defense architecture for text-to-image/text-to-video jailbreaks"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Sunil Gentyala" },
+    { name = "Suresh Kumar Darisi" },
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LATTICE-MG — Cross-Modal, Temporal &amp; Agent-Delegation Jailbreak Defense</title>
+<meta name="description" content="A reference architecture and open-source implementation binding cross-modal intent, temporal video risk, and agent tool-delegation into one enforceable contract for text-to-image and text-to-video jailbreak defense." />
+<meta name="theme-color" content="#050a14" />
+<link rel="canonical" href="https://sunilgentyala.github.io/LATTICE-MG/" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="LATTICE-MG — Jailbreak Defense for Generative Media" />
+<meta property="og:description" content="Cross-modal, temporal, and agent-delegation defenses against jailbreaks in text-to-image and text-to-video generation." />
+<meta property="og:url" content="https://sunilgentyala.github.io/LATTICE-MG/" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="LATTICE-MG" />
+<meta name="twitter:description" content="Cross-modal, temporal, and agent-delegation defenses against generative-media jailbreaks." />
+
+<style>
+  :root{
+    --bg:#050a14; --bg2:#080f1c; --bg3:#030609; --bg-elev:#0b1424;
+    --border:#132238; --border-soft:#0f2236;
+    --text:#e2e8f0; --text-dim:#94a3b8; --text-faint:#475569;
+    --accent:#38bdf8; --accent2:#a78bfa; --accent3:#0ea5e9;
+    --good:#22c55e; --warn:#fbbf24; --bad:#f87171;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(14,165,233,.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(167,139,250,.10), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent)}
+  code, .mono{font-family:'SFMono-Regular',Consolas,'Courier New',monospace}
+  ::selection{background:rgba(56,189,248,.3)}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(5,10,20,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .nav-inner{max-width:1040px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .nav-brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;color:#f8fafc;text-decoration:none;flex-shrink:0}
+  .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good)}
+  .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+  .nav-links a{color:var(--text-dim);text-decoration:none;font-size:13px;font-weight:500;transition:color .15s}
+  .nav-links a:hover{color:var(--text)}
+  @media (max-width:760px){ .nav-links{display:none} }
+
+  header{padding:72px 0 56px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .badge{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text-dim);background:var(--bg2)}
+  .badge.status{color:var(--warn);border-color:#3d2f0a;background:#130f04}
+  .logo-row{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .shield{width:54px;height:54px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,#0369a1,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:27px;box-shadow:0 8px 24px -6px rgba(3,105,161,.5)}
+  h1{font-size:36px;font-weight:800;letter-spacing:-.6px;color:#f8fafc}
+  .tagline{font-size:15px;color:var(--text-dim);margin-top:5px}
+  .lead{font-size:17px;color:var(--text-dim);max-width:740px;margin-top:24px}
+  .lead b{color:var(--text);font-weight:600}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .tag{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:6px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--accent)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:9px;font-size:14px;font-weight:600;text-decoration:none;transition:transform .15s,opacity .15s,border-color .15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:linear-gradient(135deg,#0369a1,#6d28d9);color:white;box-shadow:0 6px 18px -6px rgba(3,105,161,.55)}
+  .btn-primary:hover{opacity:.92}
+  .btn-secondary{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+  .btn-secondary:hover{border-color:var(--accent)}
+
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:44px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .hstat{background:var(--bg2);padding:16px 14px;text-align:center}
+  .hstat-val{font-size:20px;font-weight:800;color:#f8fafc}
+  .hstat-label{font-size:11px;color:var(--text-faint);margin-top:3px}
+  @media (max-width:560px){ .hero-stats{grid-template-columns:repeat(2,1fr)} }
+
+  section{padding:56px 0;border-bottom:1px solid var(--border);scroll-margin-top:64px}
+  section.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  section.reveal.in{opacity:1;transform:translateY(0)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+  h2{font-size:22px;font-weight:700;color:#f1f5f9;margin-bottom:8px}
+  .section-sub{color:var(--text-faint);font-size:14px;margin-bottom:26px;max-width:720px}
+
+  .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:700px){ .problem-grid{grid-template-columns:1fr} }
+  .pcard{background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;padding:18px}
+  .pcard h3{font-size:14px;color:#f1f5f9;margin-bottom:6px}
+  .pcard p{font-size:13px;color:var(--text-dim)}
+  .pcard.bad{border-left:3px solid var(--bad)}
+  .pcard.good{border-left:3px solid var(--good)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;overflow:hidden}
+  .table-scroll{overflow-x:auto;border-radius:10px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border-soft);white-space:nowrap}
+  th{background:var(--bg3);color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+  tr:last-child td{border-bottom:none}
+  td.hl{color:var(--accent);font-weight:700}
+  td.num{font-family:'SFMono-Regular',Consolas,monospace}
+  tr.hl-row td{background:rgba(56,189,248,.06)}
+
+  .flow{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+  .flow-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .flow-box{background:var(--bg2);border:1px solid var(--border-soft);border-radius:10px;padding:14px 16px;font-size:13px;flex:1;min-width:220px}
+  .flow-box b{color:#f1f5f9;display:block;margin-bottom:4px;font-size:13px}
+  .flow-box span{color:var(--text-faint);font-size:12px}
+  .flow-arrow{color:var(--text-faint);font-size:20px;flex-shrink:0}
+  @media (max-width:700px){ .flow-arrow{transform:rotate(90deg)} }
+
+  pre{background:var(--bg3);border:1px solid var(--border-soft);border-radius:10px;padding:18px;overflow-x:auto;font-size:12.5px;line-height:1.55;color:#cbd5e1}
+  .k{color:var(--accent2)} .s{color:var(--good)} .n{color:var(--warn)} .c{color:var(--text-faint)}
+
+  .barchart{margin-top:20px}
+  .bar-row{display:grid;grid-template-columns:190px 1fr 60px;align-items:center;gap:12px;margin-bottom:10px;font-size:12.5px}
+  .bar-label{color:var(--text-dim)}
+  .bar-track{background:var(--bg3);border-radius:6px;height:20px;overflow:hidden;border:1px solid var(--border-soft)}
+  .bar-fill{height:100%;border-radius:6px 0 0 6px}
+  .bar-fill.baseline{background:linear-gradient(90deg,#f87171,#fbbf24)}
+  .bar-fill.lattice{background:linear-gradient(90deg,#0ea5e9,#22c55e)}
+  .bar-val{text-align:right;font-family:'SFMono-Regular',Consolas,monospace;color:var(--text-dim)}
+
+  .lim-list{list-style:none}
+  .lim-list li{padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px;color:var(--text-dim);display:flex;gap:10px}
+  .lim-list li:last-child{border-bottom:none}
+  .lim-list li::before{content:"—";color:var(--warn);flex-shrink:0}
+
+  .note{background:var(--bg2);border:1px solid var(--border-soft);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text-dim);margin-top:18px}
+  .note b{color:var(--text)}
+
+  footer{padding:40px 0 60px;text-align:center;color:var(--text-faint);font-size:12.5px}
+  footer a{color:var(--text-dim)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand"><span class="dot"></span>LATTICE-MG</a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#taxonomy">Attack taxonomy</a>
+      <a href="#results">Results</a>
+      <a href="#limitations">Limitations</a>
+      <a href="https://github.com/sunilgentyala/LATTICE-MG">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="wrap">
+    <div class="badge-row">
+      <span class="badge status">Research prototype — paper in preparation</span>
+      <span class="badge">MIT licensed</span>
+      <span class="badge">Python reference implementation</span>
+    </div>
+    <div class="logo-row">
+      <div class="shield">🛡️</div>
+      <div>
+        <h1>LATTICE-MG</h1>
+        <div class="tagline">Cross-Modal, Temporal, and Agent-Delegation Defenses Against Jailbreaks in Text-to-Image and Text-to-Video Generation</div>
+      </div>
+    </div>
+    <p class="lead">
+      Jailbreak research for generative media usually evaluates one modality, one frame, or one prompt filter
+      at a time. That misses three real failure modes: <b>text and an image can be safe alone but unsafe
+      together</b>, <b>a video can look safe at every sampled frame yet unsafe in the transition between two
+      benign states</b>, and <b>an agent can hop to a weaker provider or a broader operation than a human
+      approved</b>. LATTICE-MG binds cross-modal intent, temporal video risk, and agent tool-delegation into
+      one signed policy contract instead of three disconnected classifiers.
+    </p>
+    <div class="tag-row">
+      <span class="tag">Text-to-image</span>
+      <span class="tag">Text-to-video</span>
+      <span class="tag">Agentic tool security</span>
+      <span class="tag">MCP / Claude Code</span>
+      <span class="tag">Generative media safety</span>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/sunilgentyala/LATTICE-MG">View source →</a>
+      <a class="btn btn-secondary" href="#results">See the coverage simulation</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val">3</div><div class="hstat-label">Core controls (CMSC · TAM · Lattice)</div></div>
+      <div class="hstat"><div class="hstat-val">8</div><div class="hstat-label">Attack families (A1–A8)</div></div>
+      <div class="hstat"><div class="hstat-val">1,440</div><div class="hstat-label">Corpus cases (960 adv. + 480 benign)</div></div>
+      <div class="hstat"><div class="hstat-val">12/12</div><div class="hstat-label">Correctness tests passing</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="eyebrow">The gap</div>
+    <h2>Model names aren't security boundaries</h2>
+    <p class="section-sub">Published evaluations often compare product names — Grok, ChatGPT, Sora, Claude Code — as if they were equivalent systems. They aren't: a native generator, a dedicated video model, and an agent that invokes external tools expose different interfaces, different policies, and different failure modes.</p>
+    <div class="problem-grid">
+      <div class="pcard bad">
+        <h3>What a single-channel defense sees</h3>
+        <p>A prompt filter sees text. An output classifier sees one image or a sparsely sampled frame. A tool allowlist sees which server was called. Each one is blind to everything outside its channel — composition across modalities, drift across turns, and the transition between two benign frames.</p>
+      </div>
+      <div class="pcard good">
+        <h3>What LATTICE-MG binds together</h3>
+        <p>One Cross-Modal Safety Contract per request, carrying the normalized intent, the cross-modal composition score, identity/consent state, and the exact authorized operation — enforced end-to-end by a Tool Authorization Manifest and a Temporal Risk Lattice, not three independent classifiers that can each be satisfied in isolation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>Contract, manifest, lattice, decision</h2>
+    <p class="section-sub">The same normalized intent is bound to the exact provider, model, operation, assets, temporal inspection plan, consent state, and evidence record — a downstream tool cannot silently change the operation without invalidating the contract.</p>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-box"><b>1. Cross-Modal Safety Contract (CMSC)</b><span>Signed, canonical record of normalized intent, risk vector, identity/consent, operation limits, and required inspection depth — HMAC-bound in this implementation.</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><b>2. Tool Authorization Manifest (TAM)</b><span>Authorizes an exact provider/endpoint/model/account/region/action for agent-mediated generation, not merely an allowlisted server. Denies provider hops and undocumented model substitution.</span></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-box"><b>3. Temporal Risk Lattice</b><span>Adaptive-density windows plus transition scores between boundary states — r_video = max(max window risk, max transition risk, cumulative risk, boundary-pair risk).</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><b>4. Four-way decision D(R)</b><span>ALLOW, CONSTRAINED ALLOW, REVIEW, or REFUSE — gated on every category risk being below threshold <i>and</i> the identity, tool, lineage, and inspection invariants all holding.</span></div>
+      </div>
+    </div>
+    <div class="note"><b>Formal core (Eq. 1–3), implemented and tested:</b> the pre-generation risk score r_pre = σ(w·s + γ·Φ(G(R))) with the cross-modal composition term Φ, the ALLOW gate over per-category thresholds and gate invariants, and r_video combining window, transition, cumulative, and boundary-pair risk — see <code>lattice_mg/risk.py</code> and <code>lattice_mg/temporal.py</code>.</div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="eyebrow">Unified, non-operational</div>
+    <h2>Eight attack families</h2>
+    <p class="section-sub">Mechanism-oriented, not content-category-oriented, so the same control framework supports different provider policies and jurisdictions. No operational bypass content is described anywhere in this taxonomy.</p>
+    <div class="table-scroll">
+    <table>
+      <tr><th>ID</th><th>Family</th><th>Failure mode</th><th>Required control path</th></tr>
+      <tr><td class="num">A1</td><td>Direct unsafe intent</td><td>Explicit request reaches the generator</td><td>Text intent classification</td></tr>
+      <tr><td class="num">A2</td><td>Semantic obfuscation</td><td>Translation/euphemism preserves intent</td><td>Semantic normalization</td></tr>
+      <tr><td class="num">A3</td><td>Cross-modal composition</td><td>Benign alone, unsafe together</td><td>Intent graph + Φ(G(R))</td></tr>
+      <tr><td class="num">A4</td><td>Context laundering</td><td>Intent accumulates across turns</td><td>Session risk memory (history)</td></tr>
+      <tr><td class="num">A5</td><td>Edit / reference chaining</td><td>Progressive edits cross a threshold</td><td>Transformation lineage</td></tr>
+      <tr><td class="num">A6</td><td>Scene / boundary splitting</td><td>Benign endpoints imply unsafe transition</td><td>Temporal Risk Lattice</td></tr>
+      <tr><td class="num">A7</td><td>Transient output evasion</td><td>Brief frames evade sparse inspection</td><td>Adaptive dense sampling</td></tr>
+      <tr><td class="num">A8</td><td>Agentic provider hopping</td><td>Agent escapes policy via tool/provider switch</td><td>Tool Authorization Manifest</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <div class="eyebrow">Real, reproducible simulation output</div>
+    <h2>Schema-level coverage simulation</h2>
+    <p class="section-sub">Five decision-engine capability profiles run against 960 synthetic adversarial schemas (12 policy categories × 8 attack families × 10 variants) and 480 benign hard negatives. Generated by <code>experiments/run_evaluation.py</code> (seed 2026) — real deterministic output, not hand-picked, and <b>not</b> a test against any live platform. See the note below before citing any number here.</p>
+    <div class="table-scroll">
+    <table>
+      <tr><th>Defense</th><th>A1</th><th>A2</th><th>A3</th><th>A4</th><th>A5</th><th>A6</th><th>A7</th><th>A8</th></tr>
+      <tr><td>Prompt filter only</td><td class="num">1.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.03</td><td class="num">0.00</td><td class="num">0.00</td></tr>
+      <tr><td>Prompt + image classifier</td><td class="num">1.00</td><td class="num">0.21</td><td class="num">0.39</td><td class="num">0.00</td><td class="num">0.27</td><td class="num">0.18</td><td class="num">0.03</td><td class="num">0.00</td></tr>
+      <tr><td>Prompt + sparse video</td><td class="num">0.99</td><td class="num">0.33</td><td class="num">0.22</td><td class="num">0.00</td><td class="num">0.11</td><td class="num">0.37</td><td class="num">0.04</td><td class="num">0.00</td></tr>
+      <tr><td>Tool allowlist only</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.22</td></tr>
+      <tr class="hl-row"><td><b>LATTICE-MG</b></td><td class="num hl">1.00</td><td class="num hl">0.97</td><td class="num hl">0.98</td><td class="num hl">0.98</td><td class="num hl">0.94</td><td class="num hl">0.93</td><td class="num hl">0.90</td><td class="num hl">1.00</td></tr>
+    </table>
+    </div>
+    <p class="section-sub" style="margin-top:20px">Per-family catch rate on adversarial cases. Channel-limited baselines plateau near zero on families outside their channel (history for A4, tool binding for A8) no matter how well-tuned their one channel is — the gap is structural, not a tuning problem.</p>
+    <div class="barchart">
+      <div class="bar-row"><div class="bar-label">Tool allowlist only</div><div class="bar-track"><div class="bar-fill baseline" style="width:100%"></div></div><div class="bar-val">0.97</div></div>
+      <div class="bar-row"><div class="bar-label">Prompt filter only</div><div class="bar-track"><div class="bar-fill baseline" style="width:89.7%"></div></div><div class="bar-val">0.87</div></div>
+      <div class="bar-row"><div class="bar-label">Prompt + sparse video</div><div class="bar-track"><div class="bar-fill baseline" style="width:76.5%"></div></div><div class="bar-val">0.74</div></div>
+      <div class="bar-row"><div class="bar-label">Prompt + image classifier</div><div class="bar-track"><div class="bar-fill baseline" style="width:76.3%"></div></div><div class="bar-val">0.74</div></div>
+      <div class="bar-row"><div class="bar-label"><b>LATTICE-MG</b></div><div class="bar-track"><div class="bar-fill lattice" style="width:4%"></div></div><div class="bar-val">0.04</div></div>
+    </div>
+    <p class="section-sub" style="margin-top:8px">Overall simulated attack success rate across all 8 families (lower is better); benign preservation rate stayed ≥ 0.90 for every defense, 1.00 for LATTICE-MG (full numbers in <code>results/metrics_summary.csv</code>).</p>
+    <div class="note"><b>What this is not:</b> no platform is called by this code. Detection and false-positive probabilities are illustrative defaults chosen to be directionally consistent with the paper's qualitative Table VI, not measurements from Grok, ChatGPT, Sora, or Claude Code. This is a reproducibility artifact for the architecture's design claims — the authorized, preregistered multi-platform evaluation is defined as future work in the paper's Section VII.</div>
+  </div>
+</section>
+
+<section id="limitations">
+  <div class="wrap">
+    <div class="eyebrow">Stated honestly</div>
+    <h2>Limitations</h2>
+    <ul class="lim-list">
+      <li>Detection/false-positive probabilities in <code>lattice_mg/baselines.py</code> are illustrative defaults, not measurements from any real system — inspect and replace them before drawing platform-specific conclusions.</li>
+      <li>The CMSC signature uses HMAC-SHA256 for tamper-evidence in this reference implementation; production deployment would use an asymmetric signature tied to the enforcement service's key material.</li>
+      <li>The intent graph and temporal lattice operate on declared schema features here, not real vision/ASR/OCR models — wiring in real multimodal detectors is future work.</li>
+      <li>This does not replace the authorized, preregistered, multi-platform empirical evaluation the paper defines in Section VII; it is a reproducibility artifact for the architecture's design claims.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Research prototype by Sunil Gentyala and Suresh Kumar Darisi · MIT License ·
+    <a href="https://github.com/sunilgentyala/LATTICE-MG">github.com/sunilgentyala/LATTICE-MG</a>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('section');
+  revealEls.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

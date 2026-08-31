@@ -1,0 +1,6 @@
+defense,attack_success_rate,benign_preservation_rate
+prompt_only,0.8708,0.9042
+prompt_plus_image,0.7406,0.9417
+prompt_plus_sparse_video,0.7427,0.9625
+tool_allowlist_only,0.9719,1.0000
+lattice_mg,0.0385,1.0000
