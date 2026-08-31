@@ -1,8 +1,16 @@
 # LATTICE-MG
 
+[![CI](https://github.com/sunilgentyala/LATTICE-MG/actions/workflows/ci.yml/badge.svg)](https://github.com/sunilgentyala/LATTICE-MG/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
+[![Site](https://img.shields.io/badge/site-live-0b5fff.svg)](https://sunilgentyala.github.io/LATTICE-MG/)
+[![Status](https://img.shields.io/badge/paper-in%20preparation-lightgrey.svg)](#defensive-research-boundary)
+
 **Cross-Modal, Temporal, and Agent-Delegation Defenses Against Jailbreaks in Text-to-Image and Text-to-Video Generation.**
 
 Companion research prototype (paper in preparation, not yet submitted). Site: https://sunilgentyala.github.io/LATTICE-MG/
+
+---
 
 ## The problem
 
@@ -58,6 +66,8 @@ No weaponized prompts, transformation templates, or prohibited media are generat
 - The CMSC signature uses HMAC-SHA256 for tamper-evidence in this reference implementation; a production deployment would use an asymmetric signature tied to the enforcement service's key material.
 - The intent graph and temporal lattice here operate on declared schema features, not real vision/ASR/OCR models; wiring in real multimodal detectors is future work.
 - This does not replace the authorized, preregistered, multi-platform empirical evaluation the paper defines in Section VII; it is a reproducibility artifact for the architecture's design claims.
+
+---
 
 ## License
 
