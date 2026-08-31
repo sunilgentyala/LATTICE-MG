@@ -54,8 +54,8 @@ def simulate_case(case: CorpusCase, profile: CapabilityProfile, rng: random.Rand
 def run() -> dict[str, list[TrialOutcome]]:
     corpus = full_corpus(seed=SEED)
     results: dict[str, list[TrialOutcome]] = {}
-    for profile in ALL_PROFILES:
-        rng = random.Random(SEED + hash(profile.name) % 10_000)
+    for profile_index, profile in enumerate(ALL_PROFILES):
+        rng = random.Random(SEED + profile_index)
         outcomes: list[TrialOutcome] = []
         for case in corpus:
             catches = sum(simulate_case(case, profile, rng) for _ in range(REPETITIONS))

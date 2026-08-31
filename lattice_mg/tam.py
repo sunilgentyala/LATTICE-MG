@@ -1,4 +1,4 @@
-"""Tool Authorization Manifest (TAM) — Section VI.C.
+"""Tool Authorization Manifest (TAM), Section VI.C.
 
 Authorizes an exact operation (provider, endpoint, model family, account,
 region, action, parameter ceilings), not merely a server. This is the

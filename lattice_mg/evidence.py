@@ -1,4 +1,4 @@
-"""Evidence receipt — Section VI.F.
+"""Evidence receipt, Section VI.F.
 
 Internal record binding the CMSC digest, TAM digest, provider request id,
 output hash, detector results, reviewer actions, and policy version. Kept

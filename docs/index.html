@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LATTICE-MG — Cross-Modal, Temporal &amp; Agent-Delegation Jailbreak Defense</title>
+<title>LATTICE-MG: Cross-Modal, Temporal &amp; Agent-Delegation Jailbreak Defense</title>
 <meta name="description" content="A reference architecture and open-source implementation binding cross-modal intent, temporal video risk, and agent tool-delegation into one enforceable contract for text-to-image and text-to-video jailbreak defense." />
 <meta name="theme-color" content="#050a14" />
 <link rel="canonical" href="https://sunilgentyala.github.io/LATTICE-MG/" />
@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E" />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="LATTICE-MG — Jailbreak Defense for Generative Media" />
+<meta property="og:title" content="LATTICE-MG: Jailbreak Defense for Generative Media" />
 <meta property="og:description" content="Cross-modal, temporal, and agent-delegation defenses against jailbreaks in text-to-image and text-to-video generation." />
 <meta property="og:url" content="https://sunilgentyala.github.io/LATTICE-MG/" />
 <meta name="twitter:card" content="summary" />
@@ -126,7 +126,7 @@
   .lim-list{list-style:none}
   .lim-list li{padding:12px 0;border-bottom:1px solid var(--border-soft);font-size:13.5px;color:var(--text-dim);display:flex;gap:10px}
   .lim-list li:last-child{border-bottom:none}
-  .lim-list li::before{content:"—";color:var(--warn);flex-shrink:0}
+  .lim-list li::before{content:"\2013";color:var(--warn);flex-shrink:0}
 
   .note{background:var(--bg2);border:1px solid var(--border-soft);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text-dim);margin-top:18px}
   .note b{color:var(--text)}
@@ -154,7 +154,7 @@
 <header id="top">
   <div class="wrap">
     <div class="badge-row">
-      <span class="badge status">Research prototype — paper in preparation</span>
+      <span class="badge status">Research prototype, paper in preparation</span>
       <span class="badge">MIT licensed</span>
       <span class="badge">Python reference implementation</span>
     </div>
@@ -188,7 +188,7 @@
       <div class="hstat"><div class="hstat-val">3</div><div class="hstat-label">Core controls (CMSC · TAM · Lattice)</div></div>
       <div class="hstat"><div class="hstat-val">8</div><div class="hstat-label">Attack families (A1–A8)</div></div>
       <div class="hstat"><div class="hstat-val">1,440</div><div class="hstat-label">Corpus cases (960 adv. + 480 benign)</div></div>
-      <div class="hstat"><div class="hstat-val">12/12</div><div class="hstat-label">Correctness tests passing</div></div>
+      <div class="hstat"><div class="hstat-val">13/13</div><div class="hstat-label">Correctness tests passing</div></div>
     </div>
   </div>
 </header>
@@ -197,15 +197,15 @@
   <div class="wrap">
     <div class="eyebrow">The gap</div>
     <h2>Model names aren't security boundaries</h2>
-    <p class="section-sub">Published evaluations often compare product names — Grok, ChatGPT, Sora, Claude Code — as if they were equivalent systems. They aren't: a native generator, a dedicated video model, and an agent that invokes external tools expose different interfaces, different policies, and different failure modes.</p>
+    <p class="section-sub">Published evaluations often compare product names (Grok, ChatGPT, Sora, Claude Code) as if they were equivalent systems. They aren't: a native generator, a dedicated video model, and an agent that invokes external tools expose different interfaces, different policies, and different failure modes.</p>
     <div class="problem-grid">
       <div class="pcard bad">
         <h3>What a single-channel defense sees</h3>
-        <p>A prompt filter sees text. An output classifier sees one image or a sparsely sampled frame. A tool allowlist sees which server was called. Each one is blind to everything outside its channel — composition across modalities, drift across turns, and the transition between two benign frames.</p>
+        <p>A prompt filter sees text. An output classifier sees one image or a sparsely sampled frame. A tool allowlist sees which server was called. Each one is blind to everything outside its channel: composition across modalities, drift across turns, and the transition between two benign frames.</p>
       </div>
       <div class="pcard good">
         <h3>What LATTICE-MG binds together</h3>
-        <p>One Cross-Modal Safety Contract per request, carrying the normalized intent, the cross-modal composition score, identity/consent state, and the exact authorized operation — enforced end-to-end by a Tool Authorization Manifest and a Temporal Risk Lattice, not three independent classifiers that can each be satisfied in isolation.</p>
+        <p>One Cross-Modal Safety Contract per request, carrying the normalized intent, the cross-modal composition score, identity/consent state, and the exact authorized operation, enforced end-to-end by a Tool Authorization Manifest and a Temporal Risk Lattice, not three independent classifiers that can each be satisfied in isolation.</p>
       </div>
     </div>
   </div>
@@ -215,20 +215,20 @@
   <div class="wrap">
     <div class="eyebrow">How it works</div>
     <h2>Contract, manifest, lattice, decision</h2>
-    <p class="section-sub">The same normalized intent is bound to the exact provider, model, operation, assets, temporal inspection plan, consent state, and evidence record — a downstream tool cannot silently change the operation without invalidating the contract.</p>
+    <p class="section-sub">The same normalized intent is bound to the exact provider, model, operation, assets, temporal inspection plan, consent state, and evidence record, so a downstream tool cannot silently change the operation without invalidating the contract.</p>
     <div class="flow">
       <div class="flow-row">
-        <div class="flow-box"><b>1. Cross-Modal Safety Contract (CMSC)</b><span>Signed, canonical record of normalized intent, risk vector, identity/consent, operation limits, and required inspection depth — HMAC-bound in this implementation.</span></div>
+        <div class="flow-box"><b>1. Cross-Modal Safety Contract (CMSC)</b><span>Signed, canonical record of normalized intent, risk vector, identity/consent, operation limits, and required inspection depth, HMAC-bound in this implementation.</span></div>
         <div class="flow-arrow">→</div>
         <div class="flow-box"><b>2. Tool Authorization Manifest (TAM)</b><span>Authorizes an exact provider/endpoint/model/account/region/action for agent-mediated generation, not merely an allowlisted server. Denies provider hops and undocumented model substitution.</span></div>
       </div>
       <div class="flow-row">
-        <div class="flow-box"><b>3. Temporal Risk Lattice</b><span>Adaptive-density windows plus transition scores between boundary states — r_video = max(max window risk, max transition risk, cumulative risk, boundary-pair risk).</span></div>
+        <div class="flow-box"><b>3. Temporal Risk Lattice</b><span>Adaptive-density windows plus transition scores between boundary states: r_video = max(max window risk, max transition risk, cumulative risk, boundary-pair risk).</span></div>
         <div class="flow-arrow">→</div>
-        <div class="flow-box"><b>4. Four-way decision D(R)</b><span>ALLOW, CONSTRAINED ALLOW, REVIEW, or REFUSE — gated on every category risk being below threshold <i>and</i> the identity, tool, lineage, and inspection invariants all holding.</span></div>
+        <div class="flow-box"><b>4. Four-way decision D(R)</b><span>ALLOW, CONSTRAINED ALLOW, REVIEW, or REFUSE, gated on every category risk being below threshold <i>and</i> the identity, tool, lineage, and inspection invariants all holding.</span></div>
       </div>
     </div>
-    <div class="note"><b>Formal core (Eq. 1–3), implemented and tested:</b> the pre-generation risk score r_pre = σ(w·s + γ·Φ(G(R))) with the cross-modal composition term Φ, the ALLOW gate over per-category thresholds and gate invariants, and r_video combining window, transition, cumulative, and boundary-pair risk — see <code>lattice_mg/risk.py</code> and <code>lattice_mg/temporal.py</code>.</div>
+    <div class="note"><b>Formal core (Eq. 1–3), implemented and tested:</b> the pre-generation risk score r_pre = σ(w·s + γ·Φ(G(R))) with the cross-modal composition term Φ, the ALLOW gate over per-category thresholds and gate invariants, and r_video combining window, transition, cumulative, and boundary-pair risk: see <code>lattice_mg/risk.py</code> and <code>lattice_mg/temporal.py</code>.</div>
   </div>
 </section>
 
@@ -257,27 +257,27 @@
   <div class="wrap">
     <div class="eyebrow">Real, reproducible simulation output</div>
     <h2>Schema-level coverage simulation</h2>
-    <p class="section-sub">Five decision-engine capability profiles run against 960 synthetic adversarial schemas (12 policy categories × 8 attack families × 10 variants) and 480 benign hard negatives. Generated by <code>experiments/run_evaluation.py</code> (seed 2026) — real deterministic output, not hand-picked, and <b>not</b> a test against any live platform. See the note below before citing any number here.</p>
+    <p class="section-sub">Five decision-engine capability profiles run against 960 synthetic adversarial schemas (12 policy categories × 8 attack families × 10 variants) and 480 benign hard negatives. Generated by <code>experiments/run_evaluation.py</code> (seed 2026): real deterministic output, not hand-picked, and <b>not</b> a test against any live platform. See the note below before citing any number here.</p>
     <div class="table-scroll">
     <table>
       <tr><th>Defense</th><th>A1</th><th>A2</th><th>A3</th><th>A4</th><th>A5</th><th>A6</th><th>A7</th><th>A8</th></tr>
-      <tr><td>Prompt filter only</td><td class="num">1.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.03</td><td class="num">0.00</td><td class="num">0.00</td></tr>
-      <tr><td>Prompt + image classifier</td><td class="num">1.00</td><td class="num">0.21</td><td class="num">0.39</td><td class="num">0.00</td><td class="num">0.27</td><td class="num">0.18</td><td class="num">0.03</td><td class="num">0.00</td></tr>
-      <tr><td>Prompt + sparse video</td><td class="num">0.99</td><td class="num">0.33</td><td class="num">0.22</td><td class="num">0.00</td><td class="num">0.11</td><td class="num">0.37</td><td class="num">0.04</td><td class="num">0.00</td></tr>
-      <tr><td>Tool allowlist only</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.22</td></tr>
-      <tr class="hl-row"><td><b>LATTICE-MG</b></td><td class="num hl">1.00</td><td class="num hl">0.97</td><td class="num hl">0.98</td><td class="num hl">0.98</td><td class="num hl">0.94</td><td class="num hl">0.93</td><td class="num hl">0.90</td><td class="num hl">1.00</td></tr>
+      <tr><td>Prompt filter only</td><td class="num">1.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td></tr>
+      <tr><td>Prompt + image classifier</td><td class="num">1.00</td><td class="num">0.28</td><td class="num">0.51</td><td class="num">0.00</td><td class="num">0.28</td><td class="num">0.17</td><td class="num">0.07</td><td class="num">0.00</td></tr>
+      <tr><td>Prompt + sparse video</td><td class="num">1.00</td><td class="num">0.28</td><td class="num">0.23</td><td class="num">0.00</td><td class="num">0.21</td><td class="num">0.33</td><td class="num">0.03</td><td class="num">0.00</td></tr>
+      <tr><td>Tool allowlist only</td><td class="num">0.01</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.01</td><td class="num">0.00</td><td class="num">0.27</td></tr>
+      <tr class="hl-row"><td><b>LATTICE-MG</b></td><td class="num hl">1.00</td><td class="num hl">0.97</td><td class="num hl">0.99</td><td class="num hl">0.98</td><td class="num hl">0.99</td><td class="num hl">0.97</td><td class="num hl">0.92</td><td class="num hl">0.99</td></tr>
     </table>
     </div>
-    <p class="section-sub" style="margin-top:20px">Per-family catch rate on adversarial cases. Channel-limited baselines plateau near zero on families outside their channel (history for A4, tool binding for A8) no matter how well-tuned their one channel is — the gap is structural, not a tuning problem.</p>
+    <p class="section-sub" style="margin-top:20px">Per-family catch rate on adversarial cases. Channel-limited baselines plateau near zero on families outside their channel (history for A4, tool binding for A8) no matter how well-tuned their one channel is; the gap is structural, not a tuning problem.</p>
     <div class="barchart">
-      <div class="bar-row"><div class="bar-label">Tool allowlist only</div><div class="bar-track"><div class="bar-fill baseline" style="width:100%"></div></div><div class="bar-val">0.97</div></div>
-      <div class="bar-row"><div class="bar-label">Prompt filter only</div><div class="bar-track"><div class="bar-fill baseline" style="width:89.7%"></div></div><div class="bar-val">0.87</div></div>
-      <div class="bar-row"><div class="bar-label">Prompt + sparse video</div><div class="bar-track"><div class="bar-fill baseline" style="width:76.5%"></div></div><div class="bar-val">0.74</div></div>
-      <div class="bar-row"><div class="bar-label">Prompt + image classifier</div><div class="bar-track"><div class="bar-fill baseline" style="width:76.3%"></div></div><div class="bar-val">0.74</div></div>
-      <div class="bar-row"><div class="bar-label"><b>LATTICE-MG</b></div><div class="bar-track"><div class="bar-fill lattice" style="width:4%"></div></div><div class="bar-val">0.04</div></div>
+      <div class="bar-row"><div class="bar-label">Tool allowlist only</div><div class="bar-track"><div class="bar-fill baseline" style="width:100%"></div></div><div class="bar-val">0.96</div></div>
+      <div class="bar-row"><div class="bar-label">Prompt filter only</div><div class="bar-track"><div class="bar-fill baseline" style="width:90.6%"></div></div><div class="bar-val">0.87</div></div>
+      <div class="bar-row"><div class="bar-label">Prompt + sparse video</div><div class="bar-track"><div class="bar-fill baseline" style="width:77.1%"></div></div><div class="bar-val">0.74</div></div>
+      <div class="bar-row"><div class="bar-label">Prompt + image classifier</div><div class="bar-track"><div class="bar-fill baseline" style="width:74.0%"></div></div><div class="bar-val">0.71</div></div>
+      <div class="bar-row"><div class="bar-label"><b>LATTICE-MG</b></div><div class="bar-track"><div class="bar-fill lattice" style="width:2.1%"></div></div><div class="bar-val">0.02</div></div>
     </div>
-    <p class="section-sub" style="margin-top:8px">Overall simulated attack success rate across all 8 families (lower is better); benign preservation rate stayed ≥ 0.90 for every defense, 1.00 for LATTICE-MG (full numbers in <code>results/metrics_summary.csv</code>).</p>
-    <div class="note"><b>What this is not:</b> no platform is called by this code. Detection and false-positive probabilities are illustrative defaults chosen to be directionally consistent with the paper's qualitative Table VI, not measurements from Grok, ChatGPT, Sora, or Claude Code. This is a reproducibility artifact for the architecture's design claims — the authorized, preregistered multi-platform evaluation is defined as future work in the paper's Section VII.</div>
+    <p class="section-sub" style="margin-top:8px">Overall simulated attack success rate across all 8 families (lower is better); benign preservation rate stayed ≥ 0.92 for every defense, 1.00 for LATTICE-MG (full numbers in <code>results/metrics_summary.csv</code>).</p>
+    <div class="note"><b>What this is not:</b> no platform is called by this code. Detection and false-positive probabilities are illustrative defaults chosen to be directionally consistent with the paper's qualitative Table VI, not measurements from Grok, ChatGPT, Sora, or Claude Code. This is a reproducibility artifact for the architecture's design claims; the authorized, preregistered multi-platform evaluation is defined as future work in the paper's Section VII.</div>
   </div>
 </section>
 
@@ -286,9 +286,9 @@
     <div class="eyebrow">Stated honestly</div>
     <h2>Limitations</h2>
     <ul class="lim-list">
-      <li>Detection/false-positive probabilities in <code>lattice_mg/baselines.py</code> are illustrative defaults, not measurements from any real system — inspect and replace them before drawing platform-specific conclusions.</li>
+      <li>Detection/false-positive probabilities in <code>lattice_mg/baselines.py</code> are illustrative defaults, not measurements from any real system; inspect and replace them before drawing platform-specific conclusions.</li>
       <li>The CMSC signature uses HMAC-SHA256 for tamper-evidence in this reference implementation; production deployment would use an asymmetric signature tied to the enforcement service's key material.</li>
-      <li>The intent graph and temporal lattice operate on declared schema features here, not real vision/ASR/OCR models — wiring in real multimodal detectors is future work.</li>
+      <li>The intent graph and temporal lattice operate on declared schema features here, not real vision/ASR/OCR models; wiring in real multimodal detectors is future work.</li>
       <li>This does not replace the authorized, preregistered, multi-platform empirical evaluation the paper defines in Section VII; it is a reproducibility artifact for the architecture's design claims.</li>
     </ul>
   </div>

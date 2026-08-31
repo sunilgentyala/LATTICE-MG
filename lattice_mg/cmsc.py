@@ -1,4 +1,4 @@
-"""Cross-Modal Safety Contract (CMSC) — Section VI.B, Table IV-A/B."""
+"""Cross-Modal Safety Contract (CMSC), Section VI.B, Table IV-A/B."""
 
 from __future__ import annotations
 

@@ -115,3 +115,25 @@ def test_lattice_mg_dominates_baselines_on_every_channel():
 
 def test_prompt_only_has_no_cross_modal_access():
     assert PROMPT_ONLY.channel_scale.get("cross_modal", 0.0) == 0.0
+
+
+def test_evaluation_harness_is_deterministic_across_processes():
+    """Guards the README's "seed 2026, deterministic" claim: results/*.csv must be
+    reproducible from a fresh interpreter, not just within one process. A prior
+    version seeded per-profile RNGs with the builtin hash() of the profile name,
+    which PYTHONHASHSEED randomizes per process, silently breaking reproducibility."""
+    import subprocess
+    import sys as _sys
+    from pathlib import Path as _Path
+
+    root = _Path(__file__).resolve().parents[1]
+    script = "from experiments.run_evaluation import run, write_reports; " \
+             "r = run(); " \
+             "print(sorted((name, [o.caught for o in outcomes]) for name, outcomes in r.items()))"
+    outputs = set()
+    for _ in range(2):
+        result = subprocess.run(
+            [_sys.executable, "-c", script], cwd=root, capture_output=True, text=True, check=True
+        )
+        outputs.add(result.stdout)
+    assert len(outputs) == 1, "evaluation harness produced different results across fresh processes"

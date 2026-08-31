@@ -1,4 +1,4 @@
-"""Schema-level evaluation corpus — Section VII.B.
+"""Schema-level evaluation corpus, Section VII.B.
 
 Generates the 960 adversarial schemas (12 policy categories x 8 attack
 families x 10 variants) and 480 benign hard negatives described in the

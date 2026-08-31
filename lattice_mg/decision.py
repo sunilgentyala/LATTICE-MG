@@ -1,4 +1,4 @@
-"""Four-way decision function D(R) — Section VI.D.
+"""Four-way decision function D(R), Section VI.D.
 
 D(R) in {ALLOW, CONSTRAINED_ALLOW, REVIEW, REFUSE}. An automatic ALLOW
 requires every category below its threshold and all gate invariants to

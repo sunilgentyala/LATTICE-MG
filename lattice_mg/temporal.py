@@ -1,4 +1,4 @@
-"""Temporal Risk Lattice — Section VI.E, Eq. 3.
+"""Temporal Risk Lattice, Section VI.E, Eq. 3.
 
 Partitions a video into overlapping windows with adaptive density and
 scores transitions between boundary states, so a violation that exists
