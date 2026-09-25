@@ -69,6 +69,23 @@ No weaponized prompts, transformation templates, or prohibited media are generat
 
 ---
 
+## How to Cite
+
+If you use LATTICE-MG in your research, please cite the software:
+
+```bibtex
+@software{gentyala2026latticemg,
+  author    = {Gentyala, Sunil},
+  title     = {LATTICE-MG},
+  year      = {2026},
+  url       = {https://github.com/sunilgentyala/LATTICE-MG}
+}
+```
+
+Machine-readable metadata is in [`CITATION.cff`](CITATION.cff); GitHub shows it under "Cite this repository".
+
+---
+
 ## License
 
 MIT, see `LICENSE`.

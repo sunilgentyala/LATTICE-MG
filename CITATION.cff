@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: If you use this software in your research, please cite it as below.
+type: software
+title: LATTICE-MG
+authors:
+- family-names: Gentyala
+  given-names: Sunil
+  affiliation: HCLTech (HCL America Inc.), Dallas, TX, USA
+  orcid: https://orcid.org/0009-0005-2642-3479
+  email: sunil.gentyala@ieee.org
+repository-code: https://github.com/sunilgentyala/LATTICE-MG
+url: https://sunilgentyala.github.io/LATTICE-MG/
+license: MIT
+abstract: Cross-Modal, Temporal, and Agent-Delegation Defenses Against Jailbreaks in Text-to-Image
+  and Text-to-Video Generation
+keywords:
+- agentic-security
+- ai-security
+- generative-ai
+- ieee-paper
+- jailbreak-defense
+- mcp
+- text-to-image
+- text-to-video
